@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Useless Web of Joss</title>
+  <style>
+    :root {
+      --bg1: #0f1020;
+      --bg2: #28134a;
+      --text: #fef6ff;
+      --accent: #ffd400;
+      --neon: #51f6ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Comic Sans MS", "Trebuchet MS", sans-serif;
+      color: var(--text);
+      background: radial-gradient(circle at 20% 20%, var(--bg2), var(--bg1) 60%);
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+    }
+
+    .card {
+      width: min(720px, 92vw);
+      border: 4px dashed var(--accent);
+      border-radius: 24px;
+      padding: 24px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 0 22px rgba(81, 246, 255, 0.5);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.6rem, 4vw, 3rem);
+      text-shadow: 0 0 10px rgba(255, 212, 0, 0.9);
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      opacity: 0.9;
+    }
+
+    .shoutout {
+      display: inline-block;
+      font-size: clamp(1.2rem, 4vw, 2rem);
+      font-weight: 700;
+      color: var(--neon);
+      background: rgba(0, 0, 0, 0.25);
+      border: 2px solid var(--neon);
+      border-radius: 999px;
+      padding: 10px 18px;
+      animation: pulse 1.2s infinite alternate;
+    }
+
+    .controls {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 16px;
+      font-weight: 700;
+      cursor: pointer;
+      background: var(--accent);
+      color: #191532;
+      transition: transform 0.1s ease;
+    }
+
+    button:hover {
+      transform: scale(1.07);
+    }
+
+    #uselessMeter {
+      margin-top: 14px;
+      font-weight: 700;
+      color: #ffc0ff;
+    }
+
+    .duck {
+      position: absolute;
+      font-size: 2rem;
+      user-select: none;
+      pointer-events: none;
+      animation: drift 8s linear forwards;
+    }
+
+    @keyframes drift {
+      from { transform: translateY(0) rotate(0deg); opacity: 1; }
+      to { transform: translateY(-120vh) rotate(360deg); opacity: 0; }
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.08); }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>Welcome to the Useless Web</h1>
+    <p class="subtitle">Zero productivity. Maximum nonsense.</p>
+    <p class="shoutout">SHOUTOUT TO JOSS FAIYAZ!</p>
+
+    <div class="controls">
+      <button id="confuseBtn">Confuse Me</button>
+      <button id="duckBtn">Release Useless Ducks</button>
+      <button id="truthBtn">Meaning of Life?</button>
+    </div>
+
+    <p id="uselessMeter">Useless meter: 0%</p>
+    <p id="message">Click anything and regret it instantly.</p>
+  </main>
+
+  <script>
+    const uselessMeter = document.getElementById("uselessMeter");
+    const message = document.getElementById("message");
+    const confuseBtn = document.getElementById("confuseBtn");
+    const duckBtn = document.getElementById("duckBtn");
+    const truthBtn = document.getElementById("truthBtn");
+
+    let uselessness = 0;
+    const nonsense = [
+      "A potato just got promoted.",
+      "Your fridge is now a philosopher.",
+      "Wi-Fi signal converted into spaghetti.",
+      "A goat reviewed your life choices: 10/10.",
+      "Error 418: I am a teapot and proud."
+    ];
+
+    function updateUselessness(points) {
+      uselessness = Math.min(999, uselessness + points);
+      uselessMeter.textContent = `Useless meter: ${uselessness}%`;
+    }
+
+    confuseBtn.addEventListener("click", () => {
+      const randomLine = nonsense[Math.floor(Math.random() * nonsense.length)];
+      message.textContent = randomLine;
+      document.body.style.filter = `hue-rotate(${Math.floor(Math.random() * 360)}deg)`;
+      updateUselessness(17);
+    });
+
+    duckBtn.addEventListener("click", () => {
+      for (let i = 0; i < 12; i += 1) {
+        const duck = document.createElement("div");
+        duck.className = "duck";
+        duck.textContent = "🦆";
+        duck.style.left = `${Math.random() * 100}vw`;
+        duck.style.bottom = "-20px";
+        duck.style.animationDuration = `${4 + Math.random() * 6}s`;
+        document.body.appendChild(duck);
+        setTimeout(() => duck.remove(), 10000);
+      }
+      message.textContent = "Ducks deployed. Situation made worse successfully.";
+      updateUselessness(33);
+    });
+
+    truthBtn.addEventListener("click", () => {
+      const truths = ["42", "Bread", "Nap first, then panic", "Joss Faiyaz is iconic"];
+      message.textContent = `Meaning of life: ${truths[Math.floor(Math.random() * truths.length)]}`;
+      updateUselessness(9);
+    });
+  </script>
+</body>
+</html>
